@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CodeBomb">
+    <output-path>$USER_HOME$/Desktop/Internal Testing Server/plugins</output-path>
+    <root id="archive" name="CodeBomb.jar">
+      <element id="module-output" name="CodeBomb" />
+    </root>
+  </artifact>
+</component>

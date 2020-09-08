@@ -1,0 +1,6 @@
+name: CodeBomb
+version: 0.0.0
+main: me.CodeConduit.CodeBomb.Main
+author: CodeConduit
+description: A whole array of plugins that make the server itself.
+api-version: 1.16
