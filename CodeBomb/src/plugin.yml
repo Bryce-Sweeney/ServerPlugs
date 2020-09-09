@@ -1,5 +1,5 @@
 name: CodeBomb
-version: 0.0.0
+version: 0.1.0
 main: me.CodeConduit.CodeBomb.Main
 author: CodeConduit
 description: A whole array of plugins that make the server itself.

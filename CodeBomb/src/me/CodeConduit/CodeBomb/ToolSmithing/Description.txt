@@ -1,3 +1,2 @@
 This portion of the plugin takes care of a crafting skill that does various things:
     - Determines the durability of crafted tools.
-    - Determines the amount of resources the crafting a certain tool uses.

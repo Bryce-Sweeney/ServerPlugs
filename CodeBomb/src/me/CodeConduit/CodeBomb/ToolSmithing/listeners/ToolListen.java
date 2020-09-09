@@ -1,12 +1,22 @@
 package me.CodeConduit.CodeBomb.ToolSmithing.listeners;
 
 import me.CodeConduit.CodeBomb.Main;
+import me.CodeConduit.CodeBomb.Utils;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.awt.*;
+import java.io.IOException;
+
+import static org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 
 @SuppressWarnings("all")
 public class ToolListen implements Listener {
@@ -20,7 +30,7 @@ public class ToolListen implements Listener {
     private ItemStack sPick = new ItemStack(Material.STONE_PICKAXE);
     private ItemStack iPick = new ItemStack(Material.IRON_PICKAXE);
     private ItemStack gPick = new ItemStack(Material.GOLDEN_PICKAXE);
-    private ItemStack dPick = new ItemStack(Material.WOODEN_PICKAXE);
+    private ItemStack dPick = new ItemStack(Material.DIAMOND_PICKAXE);
     private ItemStack wAxe = new ItemStack(Material.WOODEN_AXE);
     private ItemStack sAxe = new ItemStack(Material.STONE_AXE);
     private ItemStack iAxe = new ItemStack(Material.IRON_AXE);
@@ -49,60 +59,107 @@ public class ToolListen implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
+    //Methods
+    public short durabilityCalculate(int durLevel) {
+        return (short) (durabilityList[durLevel] - durabilityList[durLevel]*Math.random());
+    }
+
     //Listener for this class
     @EventHandler
     public void onCraft(CraftItemEvent e) {
+        //Get the players toolsmithing xp and set it to a variable
+        int playerXP = (int) plugin.getPlayerDataConfig().get("players." + String.valueOf(e.getWhoClicked().getUniqueId()) + ".toolSmithEXP");
+
         //Compare the recipe to every single ItemStack here ... also inefficient ... too bad!
         if (e.getInventory().getResult().equals(wPick)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[0] - durabilityList[0]*Math.random())); //Pickaxes
+            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Pickaxes
+            playerXP += 1;
         } else if (e.getInventory().getResult().equals(sPick)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[1] - durabilityList[1]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            playerXP += 5;
         } else if (e.getInventory().getResult().equals(iPick)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[2] - durabilityList[2]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            playerXP += 25;
         } else if (e.getInventory().getResult().equals(gPick)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[3] - durabilityList[3]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            playerXP += 225;
         } else if (e.getInventory().getResult().equals(dPick)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[4] - durabilityList[4]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            playerXP += 600;
         } else if (e.getInventory().getResult().equals(wAxe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[0] - durabilityList[0]*Math.random())); //Axes
+            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Axes
+            playerXP += 1;
         } else if (e.getInventory().getResult().equals(sAxe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[1] - durabilityList[1]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            playerXP += 5;
         } else if (e.getInventory().getResult().equals(iAxe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[2] - durabilityList[2]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            playerXP += 25;
         } else if (e.getInventory().getResult().equals(gAxe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[3] - durabilityList[3]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            playerXP += 225;
         } else if (e.getInventory().getResult().equals(dAxe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[4] - durabilityList[4]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            playerXP += 600;
         } else if (e.getInventory().getResult().equals(wHoe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[0] - durabilityList[0]*Math.random())); //Hoes
+            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Hoes
+            playerXP += 1;
         } else if (e.getInventory().getResult().equals(sHoe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[1] - durabilityList[1]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            playerXP += 5;
         } else if (e.getInventory().getResult().equals(iHoe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[2] - durabilityList[2]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            playerXP += 25;
         } else if (e.getInventory().getResult().equals(gHoe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[3] - durabilityList[3]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            playerXP += 225;
         } else if (e.getInventory().getResult().equals(dHoe)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[4] - durabilityList[4]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            playerXP += 600;
         } else if (e.getInventory().getResult().equals(wShovel)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[0] - durabilityList[0]*Math.random())); //Shovels
+            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Shovels
+            playerXP += 1;
         } else if (e.getInventory().getResult().equals(sShovel)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[1] - durabilityList[1]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            playerXP += 5;
         } else if (e.getInventory().getResult().equals(iShovel)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[2] - durabilityList[2]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            playerXP += 25;
         } else if (e.getInventory().getResult().equals(gShovel)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[3] - durabilityList[3]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            playerXP += 225;
         } else if (e.getInventory().getResult().equals(dShovel)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[4] - durabilityList[4]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            playerXP += 600;
         } else if (e.getInventory().getResult().equals(wSword)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[0] - durabilityList[0]*Math.random())); //Swords
+            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Swords
+            playerXP += 1;
         } else if (e.getInventory().getResult().equals(sSword)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[1] - durabilityList[1]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            playerXP += 5;
         } else if (e.getInventory().getResult().equals(iSword)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[2] - durabilityList[2]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            playerXP += 25;
         } else if (e.getInventory().getResult().equals(gSword)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[3] - durabilityList[3]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            playerXP += 225;
         } else if (e.getInventory().getResult().equals(dSword)) {
-            e.getInventory().getResult().setDurability((short) (durabilityList[4] - durabilityList[4]*Math.random()));
+            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            playerXP += 600;
+        }
+
+        //Displaying xp received
+        int playerXPgain = playerXP - (int) plugin.getPlayerDataConfig().get("players." + e.getWhoClicked().getUniqueId() + ".toolSmithEXP");
+        Player player = (Player) e.getWhoClicked();
+        e.getWhoClicked().sendMessage(Utils.chat("&6Toolsmithing EXP gain!&c " + playerXP + " XP (&a+" + playerXPgain + " XP&c)"));
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+
+        //Saving to playerdata file
+        plugin.getPlayerDataConfig().set("players." + String.valueOf(e.getWhoClicked().getUniqueId()) + ".toolSmithEXP", playerXP);
+        try {
+            plugin.getPlayerDataConfig().save(plugin.getPlayerDataFile());
+        } catch (IOException error) {
+            error.printStackTrace();
         }
     }
 }
