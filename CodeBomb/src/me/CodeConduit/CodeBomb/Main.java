@@ -1,5 +1,6 @@
 package me.CodeConduit.CodeBomb;
 
+import me.CodeConduit.CodeBomb.ToolSmithing.commands.ViewXP;
 import me.CodeConduit.CodeBomb.ToolSmithing.listeners.ToolListen;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
+@SuppressWarnings("all")
 public class Main extends JavaPlugin implements Listener {
     private File playerdataFile = new File(getDataFolder(), "playerdata.yml");
     private FileConfiguration playerdataConfig = YamlConfiguration.loadConfiguration(playerdataFile);
@@ -35,6 +37,7 @@ public class Main extends JavaPlugin implements Listener {
     public void enableToolSmithing(boolean enable) {
         if (enable) {
             new ToolListen(this);
+            new ViewXP(this);
         }
     }
 

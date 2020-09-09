@@ -1,6 +1,10 @@
 name: CodeBomb
-version: 0.1.0
+version: 0.1.1
 main: me.CodeConduit.CodeBomb.Main
 author: CodeConduit
 description: A whole array of plugins that make the server itself.
 api-version: 1.16
+
+commands:
+  toolsmithXP:
+    description: Shows the player how much toolsmithing xp they have, and what level they are at.

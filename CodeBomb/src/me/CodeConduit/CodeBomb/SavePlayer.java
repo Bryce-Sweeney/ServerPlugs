@@ -22,9 +22,10 @@ public class SavePlayer implements Listener {
     //Join event
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        plugin.getPlayerDataConfig().set("players." + String.valueOf(e.getPlayer().getUniqueId()) + ".name", e.getPlayer().getName());
-        if (!e.getPlayer().hasPlayedBefore()) {
-            plugin.getPlayerDataConfig().set("players." + String.valueOf(e.getPlayer().getUniqueId()) + ".toolSmithEXP", 0);
+        plugin.getPlayerDataConfig().set("players." + e.getPlayer().getUniqueId() + ".name", e.getPlayer().getName());
+        if (plugin.getPlayerDataConfig().get("players." + e.getPlayer().getUniqueId()) == null) {
+            plugin.getPlayerDataConfig().set("players." + e.getPlayer().getUniqueId() + ".toolSmithEXP", 0);
+            plugin.getPlayerDataConfig().set("players." + e.getPlayer().getUniqueId() + ".toolSmithLevel", 0);
         }
         try {
             plugin.getPlayerDataConfig().save(plugin.getPlayerDataFile());

@@ -60,8 +60,18 @@ public class ToolListen implements Listener {
     }
 
     //Methods
-    public short durabilityCalculate(int durLevel) {
-        return (short) (durabilityList[durLevel] - durabilityList[durLevel]*Math.random());
+    public int getPlayerExp(Player player) {
+        return (int) plugin.getPlayerDataConfig().get("players." + player.getUniqueId() + ".toolSmithEXP");
+    }
+    public int getPlayerLvl(Player player) {
+        return (int) plugin.getPlayerDataConfig().get("players." + player.getUniqueId() + ".toolSmithLevel");
+    }
+    public short durabilityCalculate(Player player, int durLevel) {
+        short returnDurability = 0;
+        if (getPlayerLvl(player) <= 10) {
+            returnDurability = (short) (durabilityList[durLevel]*Utils.random(0d, 0.50d - getPlayerLvl(player)*0.05d));
+        }
+        return returnDurability;
     }
 
     //Listener for this class
@@ -69,90 +79,113 @@ public class ToolListen implements Listener {
     public void onCraft(CraftItemEvent e) {
         //Get the players toolsmithing xp and set it to a variable
         int playerXP = (int) plugin.getPlayerDataConfig().get("players." + String.valueOf(e.getWhoClicked().getUniqueId()) + ".toolSmithEXP");
+        int playerLevel = (int) plugin.getPlayerDataConfig().get("players." + String.valueOf(e.getWhoClicked().getUniqueId()) + ".toolSmithLevel");
+        Player player = (Player) e.getWhoClicked();
 
         //Compare the recipe to every single ItemStack here ... also inefficient ... too bad!
         if (e.getInventory().getResult().equals(wPick)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Pickaxes
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 0)); //Pickaxes
             playerXP += 1;
         } else if (e.getInventory().getResult().equals(sPick)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 1));
             playerXP += 5;
         } else if (e.getInventory().getResult().equals(iPick)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 2));
             playerXP += 25;
         } else if (e.getInventory().getResult().equals(gPick)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 3));
             playerXP += 225;
         } else if (e.getInventory().getResult().equals(dPick)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 4));
             playerXP += 600;
         } else if (e.getInventory().getResult().equals(wAxe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Axes
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 0)); //Axes
             playerXP += 1;
         } else if (e.getInventory().getResult().equals(sAxe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 1));
             playerXP += 5;
         } else if (e.getInventory().getResult().equals(iAxe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 2));
             playerXP += 25;
         } else if (e.getInventory().getResult().equals(gAxe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 3));
             playerXP += 225;
         } else if (e.getInventory().getResult().equals(dAxe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 4));
             playerXP += 600;
         } else if (e.getInventory().getResult().equals(wHoe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Hoes
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 0)); //Hoes
             playerXP += 1;
         } else if (e.getInventory().getResult().equals(sHoe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 1));
             playerXP += 5;
         } else if (e.getInventory().getResult().equals(iHoe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 2));
             playerXP += 25;
         } else if (e.getInventory().getResult().equals(gHoe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 3));
             playerXP += 225;
         } else if (e.getInventory().getResult().equals(dHoe)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 4));
             playerXP += 600;
         } else if (e.getInventory().getResult().equals(wShovel)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Shovels
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 0)); //Shovels
             playerXP += 1;
         } else if (e.getInventory().getResult().equals(sShovel)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 1));
             playerXP += 5;
         } else if (e.getInventory().getResult().equals(iShovel)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 2));
             playerXP += 25;
         } else if (e.getInventory().getResult().equals(gShovel)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 3));
             playerXP += 225;
         } else if (e.getInventory().getResult().equals(dShovel)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 4));
             playerXP += 600;
         } else if (e.getInventory().getResult().equals(wSword)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(0)); //Swords
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 0)); //Swords
             playerXP += 1;
         } else if (e.getInventory().getResult().equals(sSword)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(1));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 1));
             playerXP += 5;
         } else if (e.getInventory().getResult().equals(iSword)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(2));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 2));
             playerXP += 25;
         } else if (e.getInventory().getResult().equals(gSword)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(3));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 3));
             playerXP += 225;
         } else if (e.getInventory().getResult().equals(dSword)) {
-            e.getInventory().getResult().setDurability(durabilityCalculate(4));
+            e.getInventory().getResult().setDurability(durabilityCalculate(player, 4));
             playerXP += 600;
+        }
+
+        //Level Calculating
+        boolean lvlUp = false;
+        int lvlThreshholdNum = 1;
+        while (lvlThreshholdNum <= 100) {
+            if (playerXP >= 10*Math.pow(2, lvlThreshholdNum - 1)) {
+                if (playerLevel == 100) {
+                    break;
+                } else if (playerLevel < lvlThreshholdNum) {
+                    lvlUp = true;
+                    playerLevel = lvlThreshholdNum;
+                    e.getWhoClicked().sendMessage(Utils.chat("&bYour toolsmithing level leveled up to Level " + playerLevel + "!"));
+                    player.giveExpLevels(playerLevel);
+                }
+            }
+            lvlThreshholdNum++;
         }
 
         //Displaying xp received
         int playerXPgain = playerXP - (int) plugin.getPlayerDataConfig().get("players." + e.getWhoClicked().getUniqueId() + ".toolSmithEXP");
-        Player player = (Player) e.getWhoClicked();
         e.getWhoClicked().sendMessage(Utils.chat("&6Toolsmithing EXP gain!&c " + playerXP + " XP (&a+" + playerXPgain + " XP&c)"));
-        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+        if (!lvlUp) {
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 2.0f);
+        } else {
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
+            plugin.getPlayerDataConfig().set("players." + String.valueOf(e.getWhoClicked().getUniqueId()) + ".toolSmithLevel", playerLevel);
+        }
 
         //Saving to playerdata file
         plugin.getPlayerDataConfig().set("players." + String.valueOf(e.getWhoClicked().getUniqueId()) + ".toolSmithEXP", playerXP);
